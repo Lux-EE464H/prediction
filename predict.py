@@ -54,22 +54,22 @@ def predictRed(tcos, tsin, meridiem):
     body = {'input': {'csvInstance': [tcos,tsin,meridiem]}}
     result = pAPI.predict(
       body=body, id="lux-r", project="lux-simulation-gb").execute()
-    return (result['outputValue']).replace("'","")
+    return float((result['outputValue']).replace("'",""))
 
 def predictGreen(tcos, tsin, meridiem):
     body = {'input': {'csvInstance': [tcos,tsin,meridiem]}}
     result = pAPI.predict(
       body=body, id="lux-g", project="lux-simulation-gb").execute()
-    return (result['outputValue']).replace("'","")
+    return float((result['outputValue']).replace("'",""))
 
 def predictBlue(tcos, tsin, meridiem):
     body = {'input': {'csvInstance': [tcos,tsin,meridiem]}}
     result = pAPI.predict(
       body=body, id="lux-b", project="lux-simulation-gb").execute()
-    return (result['outputValue']).replace("'","")
+    return float((result['outputValue']).replace("'",""))
 
 
-def main(argv):
+def predict(argv):
   try:
     # if an incorrect number of arguments are supplied, throw an exception
     if len(argv) != 4:
@@ -112,11 +112,11 @@ def main(argv):
     time_sine = argv[2] # 0.3420202
     meridiem = argv[3] # "PM"
 
-    red_prediction = predictRed(time_cosine, time_sine, meridiem)
-    green_prediction = predictGreen(time_cosine, time_sine, meridiem)
-    blue_prediction = predictBlue(time_cosine, time_sine, meridiem)
-
-    print(red_prediction + "," + green_prediction + "," + blue_prediction)
+    red_prediction = int(round(predictRed(time_cosine, time_sine, meridiem)))
+    green_prediction = int(round(predictGreen(time_cosine, time_sine, meridiem)))
+    blue_prediction = int(round(predictBlue(time_cosine, time_sine, meridiem)))
+    print("rgb:{},{},{}".format(red_prediction,green_prediction, blue_prediction))
+    return("rgb:{},{},{}".format(red_prediction,green_prediction, blue_prediction))
 
   	
 
